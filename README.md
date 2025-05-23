@@ -1,5 +1,5 @@
 **SETUP**
-*Please complete the following steps before watching the [Loom Video](https://www.loom.com/share/f54df29de818445b9e84dcdc3079f028):
+Please complete the following steps before watching the [Loom Video](https://www.loom.com/share/f54df29de818445b9e84dcdc3079f028):
 - Clone this repository
   - ```git clone https://github.com/bbrockbrown/ws7-activity1.git```
 - cd into both the frontend and backend folders on two separate terminals and do:
