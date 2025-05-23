@@ -10,20 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 const pool = new Pool({
-  connectionString: process.env.VITE_DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
-});
-
-// Verify database connection
-pool.connect((err, client, done) => {
-  if (err) {
-    console.error('Error connecting to the database:', err);
-  } else {
-    console.log('Successfully connected to database');
-    done();
-  }
+  connectionString: process.env.DATABASE_URL
 });
 
 app.get('/', (req, res) => {
@@ -62,6 +49,29 @@ app.get('/fetchAllAges', async (req, res) => {
     console.error('Error with query', err);
     res.status(500).json({
       error: err.message,
+    });
+  }
+});
+
+app.post('/createNewUser', async (req, res) => {
+  try {
+    const { name, email, age } = req.body;
+    
+    if (!name || !email || !age) {
+      return res.status(400).json({
+        error: 'Name, email, and age are required'
+      });
+    }
+
+    const result = await pool.query('INSERT INTO users (name, email, age) VALUES ($1, $2, $3)',
+      [name, email, age]
+    );
+
+    res.status(201).json(result);
+  } catch (err) {
+    console.error('Error creating user:', err);
+    res.status(500).json({
+      error: err instanceof Error ? err.message : 'Unknown error'
     });
   }
 });
